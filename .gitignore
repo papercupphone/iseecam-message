@@ -3,7 +3,6 @@
 *.sonarj
 *.sw*
 .DS_Store
-build.sh
 integration-repo
 ivy-cache
 argfile*
