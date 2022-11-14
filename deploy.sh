@@ -1,0 +1,1 @@
+sam deploy --stack-name iseecam-message --s3-bucket lambda.deploy.1ek.in --capabilities CAPABILITY_IAM

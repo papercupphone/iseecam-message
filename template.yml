@@ -1,0 +1,195 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: AWS Serverless Spring API - com.ISeeCam.message
+Globals:
+  Api:
+    EndpointConfiguration: REGIONAL
+    Cors:
+      AllowOrigin: "'*'"
+      AllowHeaders: "'Content-Type'"
+      AllowMethods: "'*'"
+
+Parameters:
+  RoomTableName:
+    Type: String
+    Default: 'iseecam_room'
+    Description: stores room name and socketIds connected to that room
+    MinLength: 3
+    MaxLength: 50
+    AllowedPattern: ^[A-Za-z_]+$
+    ConstraintDescription: 'Required. Can be characters and underscore only. No numbers or special characters allowed.'
+  UserTableName:
+    Type: String
+    Default: 'iseecam_user'
+    Description: stores room name and socketIds connected to that room
+    MinLength: 3
+    MaxLength: 50
+    AllowedPattern: ^[A-Za-z_]+$
+    ConstraintDescription: 'Required. Can be characters and underscore only. No numbers or special characters allowed.'
+  MessageTableName:
+    Type: String
+    Default: 'iseecam_message'
+    Description: stores room name and socketIds connected to that room
+    MinLength: 3
+    MaxLength: 50
+    AllowedPattern: ^[A-Za-z_]+$
+    ConstraintDescription: 'Required. Can be characters and underscore only. No numbers or special characters allowed.'
+  ISeeCamSocket:
+    Type: String
+    Default: 'z2a5fqdqob'
+
+Resources:
+  ISeeCamApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      Name: ISeeCamApi
+      StageName: prod
+  ISeeCamFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: ISeeCamMessage
+      Role: !GetAtt ISeeCamFunctionRole.Arn
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref UserTableName
+        - DynamoDBCrudPolicy:
+            TableName: !Ref RoomTableName
+        - DynamoDBCrudPolicy:
+            TableName: !Ref MessageTableName
+        - Statement:
+            - Effect: Allow
+              Action:
+                - 'execute-api:ManageConnections'
+              Resource:
+                - !Sub 'arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${ISeeCamSocket}/*'      
+      Handler: com.iseecam.message.StreamLambdaHandler::handleRequest
+      Runtime: java8
+      CodeUri: .
+      MemorySize: 1024
+      Policies: AWSLambdaBasicExecutionRole
+      Timeout: 120
+      Events:
+        ProxyResource:
+          Type: Api
+          Name: ISeeCamMessageApi
+          Properties:
+            Path: /{proxy+}
+            Method: any
+            RestApiId:
+              Ref: ISeeCamApi
+          Cors:
+            AllowOrigin: "'*'"
+            AllowHeaders: "'Content-Type'"
+            AllowMethods: "'*'"
+  ISeeCamFunctionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Sid: ''
+            Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      Policies:
+        - PolicyName: 'LambdaInvokeFunction'
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - lambda:InvokeFunction
+                Resource:
+                  - !Sub "arn:${AWS::Partition}:lambda:${AWS::Region}:${AWS::AccountId}:function:*"
+        - PolicyName: 'DynamoDBCrudPolicy'
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - dynamodb:PutItem
+                  - dynamodb:GetItem
+                  - dynamodb:UpdateItem
+                  - dynamodb:DeleteItem
+                  - dynamodb:Scan
+                  - dynamodb:Query
+                  - dynamodb:BatchGetItem
+                  - dynamodb:BatchWriteItem
+                Resource:
+                  - !Sub "arn:${AWS::Partition}:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${UserTableName}"
+                  - !Sub "arn:${AWS::Partition}:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${RoomTableName}"
+                  - !Sub "arn:${AWS::Partition}:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${MessageTableName}"             
+        - PolicyName: 'ManageConnections'
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 'execute-api:ManageConnections'
+                Resource:
+                  - !Sub 'arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${ISeeCamSocket}/*'  
+        - PolicyName: 'LogFull'
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - logs:*
+                Resource:
+                  - !Sub "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:*:log-stream:*"   
+  User:
+    Type: AWS::DynamoDB::Table
+    DeletionPolicy: Retain
+    Properties:
+      TableName: !Ref UserTableName
+      AttributeDefinitions:
+        - AttributeName: username
+          AttributeType: S
+      KeySchema:
+        - AttributeName: username
+          KeyType: HASH
+      BillingMode: PAY_PER_REQUEST
+  Room:
+    Type: AWS::DynamoDB::Table
+    DeletionPolicy: Retain
+    Properties:
+      TableName: !Ref RoomTableName
+      AttributeDefinitions:
+        - AttributeName: room
+          AttributeType: S
+      KeySchema:
+        - AttributeName: room
+          KeyType: HASH
+      BillingMode: PAY_PER_REQUEST
+  Message:
+    Type: AWS::DynamoDB::Table
+    DeletionPolicy: Retain
+    Properties:
+      TableName: !Ref MessageTableName
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+        - AttributeName: room
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+        - AttributeName: room
+          KeyType: RANGE
+      GlobalSecondaryIndexes:
+        - IndexName: room-index
+          KeySchema:
+            - AttributeName: room
+              KeyType: HASH
+          Projection:
+            ProjectionType: ALL
+      BillingMode: PAY_PER_REQUEST
+
+Outputs:
+  ISeeCamApi:
+    Description: URL for application
+    Value: !Sub 'https://${ISeeCamApi}.execute-api.${AWS::Region}.amazonaws.com/${ISeeCamApi.Stage}'
+    Export:
+      Name: ISeeCamApi
