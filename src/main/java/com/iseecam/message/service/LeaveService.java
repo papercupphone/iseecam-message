@@ -21,10 +21,14 @@ public class LeaveService {
         if (Objects.nonNull(username) && !username.equals(request.getUsername())) {
             throw new AuthorizationException("Username mismatch");
         }
+        return leave(request);
+    }
 
+    public String leave(LeaveRequest request) {
         RoomEntity room = roomService.get(request.getRoom());
         if (Objects.nonNull(room) && Objects.nonNull(room.getUsers()) && !room.getUsers().isEmpty()) {
             room.getUsers().remove(request.getUsername());
+            room.setUserCount(room.getUsers().size());
             roomService.update(room);
             return "OK";
         } else {

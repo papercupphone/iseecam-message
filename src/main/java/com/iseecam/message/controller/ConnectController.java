@@ -25,8 +25,8 @@ public class ConnectController {
     }
 
     @PostMapping("/public/connect")
-    public UserModel publicConnect(@RequestBody PublicConnectRequest request) {
-        return connectService.connect(request.getIdentifier(), request);
+    public UserModel connect(@RequestBody PublicConnectRequest request) {
+        return connectService.connect(request.getUsername(), request);
     }
 
 }

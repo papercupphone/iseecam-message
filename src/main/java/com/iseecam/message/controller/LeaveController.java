@@ -18,8 +18,13 @@ public class LeaveController {
     private final LeaveService leaveService;
 
     @PostMapping("/leave")
-    public String join(@AuthenticationPrincipal Jwt principal, @RequestBody LeaveRequest request) {
+    public String leave(@AuthenticationPrincipal Jwt principal, @RequestBody LeaveRequest request) {
         return leaveService.leave(principal.getClaim("username"), request);
+    }
+
+    @PostMapping("/public/leave")
+    public String leave(@RequestBody LeaveRequest request) {
+        return leaveService.leave(request);
     }
 
 }

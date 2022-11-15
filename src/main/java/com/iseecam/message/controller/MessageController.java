@@ -15,6 +15,7 @@ import com.iseecam.message.model.MessageModel;
 import com.iseecam.message.model.request.PageRequest;
 import com.iseecam.message.model.response.PageResponse;
 import com.iseecam.message.service.MessageService;
+import com.iseecam.message.service.SocketService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -23,10 +24,16 @@ import lombok.RequiredArgsConstructor;
 public class MessageController {
 
     private final MessageService messageService;
+    private final SocketService socketService;
 
     @PostMapping("/message")
     public MessageModel create(@AuthenticationPrincipal Jwt principal, @RequestBody MessageModel message) {
         return messageService.create(principal.getClaim("username"), message);
+    }
+
+    @PostMapping("/public/message")
+    public void create(@RequestBody MessageModel message) {
+        socketService.sendAllPeers(message);
     }
 
     @GetMapping("/message/{id}")

@@ -64,7 +64,7 @@ public class ConnectControllerTest {
     @Test
     public void publicConnectTest() throws IOException {
         PublicConnectRequest message = new PublicConnectRequest();
-        message.setIdentifier("identifier");
+        message.setUsername("identifier");
         message.setConnectionId("connectionId");
         InputStream requestStream = new AwsProxyRequestBuilder("/public/connect", HttpMethod.POST)
                 // add body

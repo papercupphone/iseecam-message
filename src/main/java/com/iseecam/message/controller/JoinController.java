@@ -23,4 +23,9 @@ public class JoinController {
         return joinService.join(principal.getClaim("username") ,request);
     }
 
+    @PostMapping("/public/join")
+    public JoinResponse join(@RequestBody JoinRequest request) {
+        return joinService.join(request);
+    }
+
 }

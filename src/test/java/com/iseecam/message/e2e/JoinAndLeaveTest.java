@@ -68,6 +68,32 @@ public class JoinAndLeaveTest {
 
     @Test
     @Order(1)
+    public void publicJoinTest() throws IOException {
+        JoinRequest message = JoinRequest.builder()
+                .username("ekin")
+                .room("room")
+                .connectionId("connectionId")
+                .build();
+        InputStream requestStream = new AwsProxyRequestBuilder("/public/join", HttpMethod.POST)
+                // add body
+                .body(mapper.writeValueAsString(message))
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
+                .buildStream();
+        ByteArrayOutputStream responseStream = new ByteArrayOutputStream();
+
+        MainTest.handle(requestStream, responseStream);
+
+        AwsProxyResponse response = mapper.readValue(responseStream.toByteArray(), AwsProxyResponse.class);
+        assertEquals(Response.Status.OK.getStatusCode(), response.getStatusCode());
+        assertNotNull(response.getBody());
+        JoinResponse user = mapper.readValue(response.getBody(),
+                new TypeReference<JoinResponse>() {
+                });
+        assertNotNull(user);
+    }
+
+    @Test
+    @Order(1)
     public void leaveTest() throws JsonProcessingException {
         LeaveRequest message = LeaveRequest.builder()
                 .room("room")

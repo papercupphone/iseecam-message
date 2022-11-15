@@ -11,6 +11,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class PublicConnectRequest extends ConnectRequest {
 
-    private String identifier;
+    private String username;
 
 }
