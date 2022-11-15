@@ -25,6 +25,7 @@ import com.iseecam.message.MainTest;
 import com.iseecam.message.StreamLambdaHandler;
 import com.iseecam.message.model.UserModel;
 import com.iseecam.message.model.request.ConnectRequest;
+import com.iseecam.message.model.request.PublicConnectRequest;
 
 public class ConnectControllerTest {
 
@@ -46,6 +47,29 @@ public class ConnectControllerTest {
                 .body(mapper.writeValueAsString(message))
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
                 .header("Authorization", "Bearer " + CognitoAuthenticationHelper.getToken())
+                .buildStream();
+        ByteArrayOutputStream responseStream = new ByteArrayOutputStream();
+
+        MainTest.handle(requestStream, responseStream);
+
+        AwsProxyResponse response = mapper.readValue(responseStream.toByteArray(), AwsProxyResponse.class);
+        assertEquals(Response.Status.OK.getStatusCode(), response.getStatusCode());
+        assertNotNull(response.getBody());
+        UserModel user = mapper.readValue(response.getBody(),
+                new TypeReference<UserModel>() {
+                });
+        assertNotNull(user);
+    }
+
+    @Test
+    public void publicConnectTest() throws IOException {
+        PublicConnectRequest message = new PublicConnectRequest();
+        message.setIdentifier("identifier");
+        message.setConnectionId("connectionId");
+        InputStream requestStream = new AwsProxyRequestBuilder("/public/connect", HttpMethod.POST)
+                // add body
+                .body(mapper.writeValueAsString(message))
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
                 .buildStream();
         ByteArrayOutputStream responseStream = new ByteArrayOutputStream();
 

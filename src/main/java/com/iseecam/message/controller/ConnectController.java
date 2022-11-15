@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.iseecam.message.model.UserModel;
 import com.iseecam.message.model.request.ConnectRequest;
+import com.iseecam.message.model.request.PublicConnectRequest;
 import com.iseecam.message.service.ConnectService;
 
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,11 @@ public class ConnectController {
     @PostMapping("/connect")
     public UserModel connect(@AuthenticationPrincipal Jwt principal, @RequestBody ConnectRequest request) {
         return connectService.connect(principal.getClaim("username"), request);
+    }
+
+    @PostMapping("/public/connect")
+    public UserModel publicConnect(@RequestBody PublicConnectRequest request) {
+        return connectService.connect(request.getIdentifier(), request);
     }
 
 }
