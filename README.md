@@ -1,6 +1,6 @@
 # iseecam-message
 
-![Diagram](docs/iseecamsocket+message.png)
+![Diagram](docs/socket+message.png)
 ```bash
 Start locally:
 $ sam local start-api
