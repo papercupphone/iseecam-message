@@ -159,14 +159,18 @@ Resources:
       AttributeDefinitions:
         - AttributeName: room
           AttributeType: S
+        - AttributeName: userCount
+          AttributeType: N
       KeySchema:
         - AttributeName: room
           KeyType: HASH
+        - AttributeName: userCount
+          AttributeType: N
       GlobalSecondaryIndexes:
         - IndexName: user-count-index
           KeySchema:
             - AttributeName: userCount
-              AttributeType: N
+              KeyType: RANGE
           Projection:
             ProjectionType: ALL          
       BillingMode: PAY_PER_REQUEST
