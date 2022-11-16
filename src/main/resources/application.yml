@@ -7,6 +7,10 @@ spring:
 dynamo:
   accessKey: AKIA4B7GKBMAY6MVVA3U
   secretKey: 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
+sqs:
+  accessKey: AKIA4B7GKBMA3Y3ZPHJY
+  secretKey: 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
+  endpoint: https://sqs.eu-west-1.amazonaws.com/828874820353/roulette-queue.fifo
 aws:
   apigateway: 
     endpoint: z2a5fqdqob.execute-api.eu-west-1.amazonaws.com

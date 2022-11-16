@@ -28,7 +28,6 @@ public class LeaveService {
         RoomEntity room = roomService.get(request.getRoom());
         if (Objects.nonNull(room) && Objects.nonNull(room.getUsers()) && !room.getUsers().isEmpty()) {
             room.getUsers().remove(request.getUsername());
-            room.setUserCount(room.getUsers().size());
             roomService.update(room);
             return "OK";
         } else {

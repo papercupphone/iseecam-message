@@ -34,7 +34,6 @@ public class JoinService {
                 && (Objects.nonNull(room.getUsers()) && !room.getUsers().isEmpty())) {
             if (!room.getUsers().contains(request.getUsername())) {
                 room.getUsers().add(request.getUsername());
-                room.setUserCount(room.getUsers().size());
                 roomService.update(room);
                 socketService.sendAllPeers(MessageModel.builder()
                         .type(MessageType.SYSTEM.name())
@@ -45,7 +44,6 @@ public class JoinService {
         } else {
             room = roomService.create(RoomEntity.builder()
                     .room(request.getRoom())
-                    .userCount(1)
                     .users(Arrays.asList(request.getUsername()))
                     .build());
         }
