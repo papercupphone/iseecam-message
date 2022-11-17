@@ -18,6 +18,5 @@ public class JoinRequest {
     private String room;
     private String connectionId;
     private String username;
-    private boolean type;
 
 }

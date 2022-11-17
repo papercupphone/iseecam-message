@@ -71,7 +71,7 @@ public class JoinAndLeaveTest {
     public void publicJoinTest() throws IOException {
         JoinRequest message = JoinRequest.builder()
                 .username("ekin")
-                .room("room")
+                .room("room30")
                 .connectionId("connectionId")
                 .build();
         InputStream requestStream = new AwsProxyRequestBuilder("/public/join", HttpMethod.POST)
@@ -93,7 +93,7 @@ public class JoinAndLeaveTest {
     }
 
     @Test
-    @Order(1)
+    @Order(2)
     public void leaveTest() throws JsonProcessingException {
         LeaveRequest message = LeaveRequest.builder()
                 .room("room")

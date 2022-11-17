@@ -75,7 +75,7 @@ public class MessageControllerTest {
         public void createPublicMessageTest() throws JsonProcessingException {
                 MessageModel message = MessageModel.builder()
                                 .message("Hello World")
-                                .room("room2")
+                                .room("room23")
                                 .sender("user6")
                                 .build();
                 InputStream requestStream = new AwsProxyRequestBuilder("/public/message", HttpMethod.POST)
@@ -92,13 +92,6 @@ public class MessageControllerTest {
                 assertEquals(Response.Status.OK.getStatusCode(), response.getStatusCode());
 
                 assertFalse(response.isBase64Encoded());
-
-                assertTrue(response.getBody().contains("message"));
-                assertTrue(response.getBody().contains(message.getMessage()));
-
-                assertTrue(response.getMultiValueHeaders().containsKey(HttpHeaders.CONTENT_TYPE));
-                assertTrue(response.getMultiValueHeaders().getFirst(HttpHeaders.CONTENT_TYPE)
-                                .startsWith(MediaType.APPLICATION_JSON));
         }
 
         @Test

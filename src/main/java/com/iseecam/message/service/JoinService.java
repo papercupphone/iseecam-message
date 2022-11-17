@@ -66,14 +66,16 @@ public class JoinService {
         if ((Objects.nonNull(room.getUsers()) && !room.getUsers().isEmpty())) {
             if (!room.getUsers().contains(request.getUsername())) {
                 room.getUsers().add(request.getUsername());
-                roomService.update(room);
-                socketService.sendAllPeers(MessageModel.builder()
-                        .type(MessageType.SYSTEM.name())
-                        .room(room.getRoom())
-                        .message(request.getUsername() + " joined the room")
-                        .build());
             }
+        } else {
+            room.setUsers(Arrays.asList(request.getUsername()));
         }
+        roomService.update(room);
+        socketService.sendAllPeers(MessageModel.builder()
+                .type(MessageType.SYSTEM.name())
+                .room(room.getRoom())
+                .message(request.getUsername() + " joined the room")
+                .build());
         return JoinResponse.builder()
                 .room(room.getRoom())
                 .users(room.getUsers())
