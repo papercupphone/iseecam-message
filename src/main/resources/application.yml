@@ -13,6 +13,6 @@ sqs:
   endpoint: https://sqs.eu-west-1.amazonaws.com/828874820353/roulette-queue.fifo
 aws:
   apigateway: 
-    endpoint: z2a5fqdqob.execute-api.eu-west-1.amazonaws.com
+    endpoint: glhiy7ub83.execute-api.eu-west-1.amazonaws.com
     stage: prod
     region: eu-west-1

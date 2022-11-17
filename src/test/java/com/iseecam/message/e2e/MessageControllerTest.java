@@ -72,6 +72,36 @@ public class MessageControllerTest {
         }
 
         @Test
+        public void createPublicMessageTest() throws JsonProcessingException {
+                MessageModel message = MessageModel.builder()
+                                .message("Hello World")
+                                .room("room2")
+                                .sender("user6")
+                                .build();
+                InputStream requestStream = new AwsProxyRequestBuilder("/public/message", HttpMethod.POST)
+                                // add body
+                                .body(mapper.writeValueAsString(message))
+                                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
+                                .buildStream();
+                ByteArrayOutputStream responseStream = new ByteArrayOutputStream();
+
+                MainTest.handle(requestStream, responseStream);
+
+                AwsProxyResponse response = MainTest.readResponse(responseStream);
+                assertNotNull(response);
+                assertEquals(Response.Status.OK.getStatusCode(), response.getStatusCode());
+
+                assertFalse(response.isBase64Encoded());
+
+                assertTrue(response.getBody().contains("message"));
+                assertTrue(response.getBody().contains(message.getMessage()));
+
+                assertTrue(response.getMultiValueHeaders().containsKey(HttpHeaders.CONTENT_TYPE));
+                assertTrue(response.getMultiValueHeaders().getFirst(HttpHeaders.CONTENT_TYPE)
+                                .startsWith(MediaType.APPLICATION_JSON));
+        }
+
+        @Test
         public void createMessageWithFalseUser() throws JsonProcessingException {
                 MessageModel message = MessageModel.builder()
                                 .message("Hello World")
