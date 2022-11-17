@@ -30,6 +30,9 @@ public class RoomEntity {
     private long creationTime;
 
     @DynamoDBAttribute
+    private boolean secure;
+
+    @DynamoDBAttribute
     private List<String> users;
 
 }

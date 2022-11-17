@@ -31,7 +31,7 @@ public class ConnectService {
         }
     }
 
-    public UserModel connect(PublicConnectRequest request) {
+    public UserModel publicConnect(PublicConnectRequest request) {
         if (Objects.nonNull(request.getUsername())) {
             return connect(request.getUsername(), request);
         } else {

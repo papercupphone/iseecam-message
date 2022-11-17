@@ -20,12 +20,12 @@ public class JoinController {
 
     @PostMapping("/join")
     public JoinResponse join(@AuthenticationPrincipal Jwt principal, @RequestBody JoinRequest request) {
-        return joinService.join(principal.getClaim("username") ,request);
+        return joinService.privateJoin(principal.getClaim("username") ,request);
     }
 
     @PostMapping("/public/join")
     public JoinResponse join(@RequestBody JoinRequest request) {
-        return joinService.join(request);
+        return joinService.publicJoin(request);
     }
 
 }

@@ -21,6 +21,7 @@ public class UserModel {
     private String connectionId;
     private long updateTime;
     private long creationTime;
+    private boolean guest;
 
     public UserEntity toEntity() {
         return UserEntity.builder()
@@ -28,6 +29,7 @@ public class UserModel {
                 .connectionId(connectionId)
                 .updateTime(updateTime)
                 .creationTime(creationTime)
+                .guest(guest)
                 .build();
     }
 
@@ -37,6 +39,7 @@ public class UserModel {
                 .connectionId(userEntity.getConnectionId())
                 .updateTime(userEntity.getUpdateTime())
                 .creationTime(userEntity.getCreationTime())
+                .guest(userEntity.isGuest())
                 .build();
     }
 }

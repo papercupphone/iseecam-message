@@ -28,6 +28,9 @@ public class UserEntity {
     private long updateTime;
 
     @DynamoDBAttribute
+    private boolean guest;
+    
+    @DynamoDBAttribute
     private long creationTime;
 
 }

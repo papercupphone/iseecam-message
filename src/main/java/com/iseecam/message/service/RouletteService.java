@@ -64,7 +64,7 @@ public class RouletteService {
     }
 
     private void join(String room, String username, String connectionId) {
-        joinService.join(JoinRequest.builder()
+        joinService.publicJoin(JoinRequest.builder()
                 .connectionId(connectionId)
                 .room(room)
                 .username(username)

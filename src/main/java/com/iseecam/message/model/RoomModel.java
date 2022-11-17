@@ -22,22 +22,25 @@ public class RoomModel {
     private String room;
     private long updateTime;
     private long creationTime;
+    private boolean secure;
     private List<String> users;
 
-    public RoomEntity toEntity(){
+    public RoomEntity toEntity() {
         return RoomEntity.builder()
                 .room(room)
                 .updateTime(updateTime)
                 .creationTime(creationTime)
+                .secure(secure)
                 .users(users)
                 .build();
     }
 
-    public static RoomModel toModel(RoomEntity roomEntity){
+    public static RoomModel toModel(RoomEntity roomEntity) {
         return RoomModel.builder()
                 .room(roomEntity.getRoom())
                 .updateTime(roomEntity.getUpdateTime())
                 .creationTime(roomEntity.getCreationTime())
+                .secure(roomEntity.isSecure())
                 .users(roomEntity.getUsers())
                 .build();
     }
