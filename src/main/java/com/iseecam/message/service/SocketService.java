@@ -7,6 +7,8 @@ import java.util.Objects;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.amazonaws.auth.AWSStaticCredentialsProvider;
+import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.client.builder.AwsClientBuilder.EndpointConfiguration;
 import com.amazonaws.services.apigatewaymanagementapi.AmazonApiGatewayManagementApi;
 import com.amazonaws.services.apigatewaymanagementapi.AmazonApiGatewayManagementApiClientBuilder;
@@ -33,9 +35,15 @@ public class SocketService {
     public SocketService(@Value("${aws.apigateway.endpoint}") String endpoint,
             @Value("${aws.apigateway.region}") String region,
             @Value("${aws.apigateway.stage}") String stage,
+            @Value("${aws.apigateway.accessKey}") String accessKey,
+            @Value("${aws.apigateway.secretKey}") String secretKey,
             RoomService roomService,
             UserService userService) {
         amazonApiGatewayManagementApi = AmazonApiGatewayManagementApiClientBuilder.standard()
+                .withCredentials(new AWSStaticCredentialsProvider(
+                        new BasicAWSCredentials(
+                                accessKey,
+                                secretKey)))
                 .withEndpointConfiguration(new EndpointConfiguration(endpoint + "/" + stage, region))
                 .build();
         this.roomService = roomService;

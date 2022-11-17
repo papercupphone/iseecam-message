@@ -6,8 +6,10 @@ import java.util.Objects;
 import org.springframework.stereotype.Service;
 
 import com.iseecam.message.domain.UserEntity;
+import com.iseecam.message.exception.ValidationException;
 import com.iseecam.message.model.UserModel;
 import com.iseecam.message.model.request.ConnectRequest;
+import com.iseecam.message.model.request.PublicConnectRequest;
 
 import lombok.RequiredArgsConstructor;
 
@@ -25,7 +27,15 @@ public class ConnectService {
             userService.update(userEntity);
             return UserModel.toModel(userEntity);
         } else {
-            return UserModel.toModel(userService.create(username,request));
+            return UserModel.toModel(userService.create(username, request));
+        }
+    }
+
+    public UserModel connect(PublicConnectRequest request) {
+        if (Objects.nonNull(request.getUsername())) {
+            return connect(request.getUsername(), request);
+        } else {
+            throw new ValidationException("Username required to identify public guests");
         }
     }
 
