@@ -20,6 +20,6 @@ import lombok.Setter;
 public class PageResponse<T> {
 
     private List<T> contents;
-    private MessageCompositeKey messageCompositeKey;
+    private MessageCompositeKey lastKey;
 
 }

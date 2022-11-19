@@ -69,7 +69,7 @@ public class MessageService {
     private PageResponse<MessageModel> buildPageResponse(QueryResultPage<MessageEntity> scanResultPage) {
         return PageResponse.<MessageModel>builder()
                 .contents(scanResultPage.getResults().stream().map(MessageModel::toModel).collect(Collectors.toList()))
-                .messageCompositeKey(Objects.nonNull(scanResultPage.getLastEvaluatedKey())
+                .lastKey(Objects.nonNull(scanResultPage.getLastEvaluatedKey())
                         ? MessageCompositeKey.toMessageCompositeKey(scanResultPage.getLastEvaluatedKey())
                         : null)
                 .build();

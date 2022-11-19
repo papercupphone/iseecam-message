@@ -185,7 +185,7 @@ public class MessageControllerTest {
                 InputStream requestStream2 = new AwsProxyRequestBuilder("/message/room/test/page", HttpMethod.POST)
                                 .body(mapper.writeValueAsString(PageRequest.builder()
                                                 .size(2)
-                                                .compositeKey(pageResponse.getMessageCompositeKey())
+                                                .compositeKey(pageResponse.getLastKey())
                                                 .build()))
                                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
                                 .header("Authorization", "Bearer " + CognitoAuthenticationHelper.getToken())
