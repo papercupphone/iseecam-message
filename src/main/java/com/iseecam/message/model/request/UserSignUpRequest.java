@@ -39,7 +39,7 @@ public class UserSignUpRequest {
     private Consumer<UserSignUpRequest> validatePassword() {
         return request -> {
             if (Objects.isNull(request.getPassword()) || request.getPassword().isEmpty()) {
-                throw new ValidationException("auth.passwordRequired");
+                throw new ValidationException("auth.password_required");
             }
         };
     }
