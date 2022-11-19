@@ -51,7 +51,7 @@ public class MessageController {
         return messageService.getAllByRoom(room);
     }
 
-    @DeleteMapping("/admin/message/room/{room}")
+    @DeleteMapping("/admin/all/message/room/{room}")
     public void deleteByRoomId(@PathVariable("room") String room) {
         messageService.deleteAllByRoom(room);
     }
