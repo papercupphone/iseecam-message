@@ -61,7 +61,7 @@ public class AuthService {
             throw new ValidationException("auth.signup_failed");
         }
 
-        return UserSignUpResponse.builder().message(request.getUsername()).build();
+        return UserSignUpResponse.builder().message("auth.signup_success").build();
     }
 
     public UserSignInResponse signIn(UserSignInRequest request) {
