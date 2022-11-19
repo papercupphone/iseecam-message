@@ -123,7 +123,7 @@ public class AuthService {
             AuthenticationResultType resultType = authResult.getAuthenticationResult();
             return UserSignInResponse.builder()
                     .accessToken(resultType.getAccessToken())
-                    .refreshToken(resultType.getRefreshToken())
+                    .refreshToken(request.getRefreshToken())
                     .idToken(resultType.getIdToken())
                     .expiresIn(resultType.getExpiresIn())
                     .message("auth.refresh_success")
