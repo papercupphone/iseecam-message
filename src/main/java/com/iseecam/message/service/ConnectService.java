@@ -35,7 +35,7 @@ public class ConnectService {
         if (Objects.nonNull(request.getUsername())) {
             return connect(request.getUsername(), request);
         } else {
-            throw new ValidationException("Username required to identify public guests");
+            throw new ValidationException("connect.request_username_is_null");
         }
     }
 

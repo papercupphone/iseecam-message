@@ -26,6 +26,7 @@ public class SecurityConfig {
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .antMatchers("/test/**").permitAll()
                 .antMatchers("/public/**").permitAll()
+                .antMatchers("/auth/**").permitAll()
                 .antMatchers("/admin/**").hasAuthority("ADMIN")
                 .antMatchers("/**").authenticated().and()
                 .oauth2ResourceServer()

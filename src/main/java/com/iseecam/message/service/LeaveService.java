@@ -21,13 +21,13 @@ public class LeaveService {
 
     public String privateLeave(String username, LeaveRequest request) {
         if (Objects.nonNull(username) && !username.equals(request.getUsername())) {
-            throw new AuthorizationException("Username mismatch");
+            throw new AuthorizationException("auth.username_not_match");
         }
         RoomEntity room = roomService.get(request.getRoom());
         if (Objects.nonNull(room)) {
             return leave(room, request);
         } else {
-            throw new ValidationException("Room does not exist");
+            throw new ValidationException("leave.room_not_found");
         }
     }
 
@@ -35,12 +35,12 @@ public class LeaveService {
         RoomEntity room = roomService.get(request.getRoom());
         if (Objects.nonNull(room)) {
             if (room.isSecure()) {
-                throw new AuthorizationException("Room is private");
+                throw new AuthorizationException("auth.room_is_secure");
             } else {
                 return leave(room, request);
             }
         } else {
-            throw new ValidationException("Room does not exist");
+            throw new ValidationException("leave.room_not_found");
         }
     }
 
@@ -53,7 +53,7 @@ public class LeaveService {
             roomService.update(room);
             return "OK";
         } else {
-            throw new ValidationException("User not found");
+            throw new ValidationException("leave.room_is_empty");
         }
     }
 

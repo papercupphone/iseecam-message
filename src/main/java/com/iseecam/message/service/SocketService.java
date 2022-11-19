@@ -32,11 +32,11 @@ public class SocketService {
     private final RoomService roomService;
     private final UserService userService;
 
-    public SocketService(@Value("${aws.apigateway.endpoint}") String endpoint,
-            @Value("${aws.apigateway.region}") String region,
-            @Value("${aws.apigateway.stage}") String stage,
-            @Value("${aws.apigateway.accessKey}") String accessKey,
-            @Value("${aws.apigateway.secretKey}") String secretKey,
+    public SocketService(@Value("${apigateway.endpoint}") String endpoint,
+            @Value("${aws.region}") String region,
+            @Value("${apigateway.stage}") String stage,
+            @Value("${apigateway.accessKey}") String accessKey,
+            @Value("${apigateway.secretKey}") String secretKey,
             RoomService roomService,
             UserService userService) {
         amazonApiGatewayManagementApi = AmazonApiGatewayManagementApiClientBuilder.standard()
@@ -79,7 +79,7 @@ public class SocketService {
                             send(user.getConnectionId(), message);
                         }
                     } catch (JsonProcessingException e) {
-                        throw new ValidationException("Error while sending message to user " + username);
+                        throw new ValidationException("socket.send_failed");
                     }
                 }
             });

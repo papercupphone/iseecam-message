@@ -13,13 +13,16 @@ import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 
 @Configuration
-public class DynamoDBConfiguration {
+public class DynamoDBConfig {
 
         @Value("${dynamo.accessKey}")
         private String dynamoAccessKey;
 
         @Value("${dynamo.secretKey}")
         private String dynamoSecretKey;
+
+        @Value("${aws.region}")
+        String region;
 
         @Bean
         public DynamoDBMapper dynamoDBMapper() {
@@ -32,7 +35,7 @@ public class DynamoDBConfiguration {
                                 .withEndpointConfiguration(
                                                 new AwsClientBuilder.EndpointConfiguration(
                                                                 "dynamodb.eu-west-1.amazonaws.com",
-                                                                Regions.EU_WEST_1.getName()))
+                                                                region))
                                 .withCredentials(
                                                 new AWSStaticCredentialsProvider(
                                                                 new BasicAWSCredentials(

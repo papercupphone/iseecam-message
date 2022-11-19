@@ -39,7 +39,7 @@ public class MessageRepository {
         if (messages.stream().findFirst().isPresent()) {
             return messages.stream().findFirst().get();
         } else {
-            throw new ValidationException("Message not found");
+            throw new ValidationException("message.not_found");
         }
     }
 

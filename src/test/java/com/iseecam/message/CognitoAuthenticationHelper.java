@@ -27,8 +27,8 @@ public class CognitoAuthenticationHelper {
         AdminInitiateAuthRequest initialRequest = new AdminInitiateAuthRequest()
                 .withAuthFlow(AuthFlowType.ADMIN_NO_SRP_AUTH)
                 .withAuthParameters(initialParams)
-                .withClientId("1f260j18ifq6udmg2b9e0cesrm")
-                .withUserPoolId("eu-west-1_I6C1Be6u7");
+                .withClientId("5o3p0gl8pli383dsi2hq1s7b5m")
+                .withUserPoolId("eu-west-1_HkXutiKkq");
 
         AdminInitiateAuthResult initialResponse = cognitoClient.adminInitiateAuth(initialRequest);
         return initialResponse.getAuthenticationResult().getAccessToken();

@@ -23,7 +23,7 @@ public class JoinService {
 
     public JoinResponse privateJoin(String username, JoinRequest request) {
         if (Objects.nonNull(username) && !username.equals(request.getUsername())) {
-            throw new AuthorizationException("Username mismatch");
+            throw new AuthorizationException("auth.username_not_match");
         }
         RoomEntity room = roomService.get(request.getRoom());
         if (Objects.nonNull(room)) {
@@ -41,7 +41,7 @@ public class JoinService {
         RoomEntity room = roomService.get(request.getRoom());
         if (Objects.nonNull(room)) {
             if (room.isSecure()) {
-                throw new AuthorizationException("Room is private");
+                throw new AuthorizationException("auth.room_is_secure");
             } else {
                 return join(room, request);
             }

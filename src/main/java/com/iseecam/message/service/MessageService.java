@@ -36,7 +36,7 @@ public class MessageService {
             messageRepository.save(messageEntity);
             return messageModel;
         } else {
-            throw new ValidationException("You are not allowed to send message on behalf of other user!");
+            throw new ValidationException("message.sender_not_match");
         }
     }
 
