@@ -56,6 +56,7 @@ public class MessageService {
     }
 
     public List<MessageModel> getAllByRoom(String room) {
+        // TODO control if user is in room
         return messageRepository.getAllByRoom(room).stream().map(MessageModel::toModel).collect(Collectors.toList());
     }
 

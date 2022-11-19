@@ -52,7 +52,8 @@ public class MessageRepository {
     }
 
     public void deleteById(String id) {
-        dynamoDBMapper.delete(deleteExpression(id));
+        MessageEntity message = getMessageById(id);
+        dynamoDBMapper.delete(message);
     }
 
     public MessageEntity update(MessageEntity message) {

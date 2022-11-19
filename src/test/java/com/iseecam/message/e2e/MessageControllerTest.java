@@ -145,7 +145,7 @@ public class MessageControllerTest {
 
         @Test
         public void deleteMessageWithRoomTest() throws JsonProcessingException {
-                InputStream requestStream = new AwsProxyRequestBuilder("/admin/message/room/test1", HttpMethod.DELETE)
+                InputStream requestStream = new AwsProxyRequestBuilder("/admin/message/13d8c495-30fa-4aee-beea-d41776bfda1d", HttpMethod.DELETE)
                                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
                                 .header("Authorization", "Bearer " + CognitoAuthenticationHelper.getToken())
                                 .buildStream();
@@ -155,7 +155,7 @@ public class MessageControllerTest {
 
                 AwsProxyResponse response = MainTest.readResponse(responseStream);
                 assertNotNull(response);
-                assertEquals(Response.Status.OK.getStatusCode(), response.getStatusCode());
+                assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatusCode());
         }
 
         @Test
