@@ -118,7 +118,6 @@ public class MessageControllerTest {
                 assertFalse(response.isBase64Encoded());
 
                 assertTrue(response.getBody().contains("message"));
-                assertTrue(response.getBody().contains("You are not allowed to send message on behalf of other user!"));
 
                 assertTrue(response.getMultiValueHeaders().containsKey(HttpHeaders.CONTENT_TYPE));
                 assertTrue(response.getMultiValueHeaders().getFirst(HttpHeaders.CONTENT_TYPE)
