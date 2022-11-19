@@ -56,7 +56,7 @@ public class MessageController {
         messageService.deleteAllByRoom(room);
     }
 
-    @GetMapping("/message/room/{room}/page")
+    @PostMapping("/message/room/{room}/page")
     public PageResponse<MessageModel> getAllByRoomPage(@RequestBody PageRequest pageRequest,
             @PathVariable("room") String room) {
         return messageService.getAllByRoom(room, pageRequest);

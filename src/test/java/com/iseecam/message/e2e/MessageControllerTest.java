@@ -160,7 +160,7 @@ public class MessageControllerTest {
 
         @Test
         public void getMessagesWithRoomPaginationTest() throws JsonProcessingException {
-                InputStream requestStream = new AwsProxyRequestBuilder("/message/room/test/page", HttpMethod.GET)
+                InputStream requestStream = new AwsProxyRequestBuilder("/message/room/test/page", HttpMethod.POST)
                                 .body(mapper.writeValueAsString(PageRequest.builder()
                                                 .size(2)
                                                 .build()))
@@ -182,7 +182,7 @@ public class MessageControllerTest {
 
                 System.out.println(pageResponse.getContents());
 
-                InputStream requestStream2 = new AwsProxyRequestBuilder("/message/room/test/page", HttpMethod.GET)
+                InputStream requestStream2 = new AwsProxyRequestBuilder("/message/room/test/page", HttpMethod.POST)
                                 .body(mapper.writeValueAsString(PageRequest.builder()
                                                 .size(2)
                                                 .compositeKey(pageResponse.getMessageCompositeKey())
