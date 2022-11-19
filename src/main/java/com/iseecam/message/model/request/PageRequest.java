@@ -17,7 +17,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class PageRequest {
 
-    private MessageCompositeKey compositeKey;
+    private MessageCompositeKey lastKey;
     private int size;
 
 }

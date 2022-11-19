@@ -62,7 +62,7 @@ public class MessageService {
 
     public PageResponse<MessageModel> getAllByRoom(String room, PageRequest pageRequest) {
         QueryResultPage<MessageEntity> scanResultPage = messageRepository.getAllByRoom(room, pageRequest.getSize(),
-                pageRequest.getCompositeKey());
+                pageRequest.getLastKey());
         return buildPageResponse(scanResultPage);
     }
 
