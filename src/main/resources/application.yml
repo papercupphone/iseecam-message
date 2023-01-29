@@ -3,23 +3,4 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: https://cognito-idp.eu-west-1.amazonaws.com/eu-west-1_HkXutiKkq
-aws:
-  region: eu-west-1          
-dynamo:
-  accessKey: AKIA4B7GKBMAY6MVVA3U
-  secretKey: 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
-sqs:
-  accessKey: AKIA4B7GKBMA3Y3ZPHJY
-  secretKey: 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
-  endpoint: https://sqs.eu-west-1.amazonaws.com/828874820353/roulette-queue.fifo
-apigateway: 
-  endpoint: glhiy7ub83.execute-api.eu-west-1.amazonaws.com
-  stage: prod
-  secretKey: OlGmz4viIviGq761G6wBbGi41akbm9m36wAwXqY0
-  accessKey: AKIA4B7GKBMAUOUQTE2Z
-cognito:
-  accessKey: AKIA4B7GKBMAYBGDGM44
-  secretKey: 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
-  userPoolId: eu-west-1_HkXutiKkq
-  clientId: 5o3p0gl8pli383dsi2hq1s7b5m
+#forgotten AWS keys are revoked and deleted
